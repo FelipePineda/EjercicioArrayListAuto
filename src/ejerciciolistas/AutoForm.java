@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
  */
 public class AutoForm extends javax.swing.JFrame {
 
-    ArrayList<Auto> listaAutos;
+    Cola<Auto> listaAutos;
     int contador = 0;
 
     /**
@@ -23,7 +23,7 @@ public class AutoForm extends javax.swing.JFrame {
      */
     public AutoForm() {
         initComponents();
-        listaAutos = new ArrayList<Auto>();
+        listaAutos = new Cola<Auto>();
 
     }
 
@@ -232,9 +232,9 @@ public class AutoForm extends javax.swing.JFrame {
         int Puertas = Integer.parseInt(spinPuertas.getValue().toString());
         int Modelo = Integer.parseInt(txtModelo.getText());
 
-        Auto objAuto = new Auto(Motor, Placa, Marca, Cilindraje, Puertas, Modelo);
-
-        listaAutos.add(objAuto);
+        Auto objauto = new Auto(Motor, Placa, Marca, Cilindraje, Puertas, Modelo);
+        
+        listaAutos.Encolar(objauto);
 
         JOptionPane.showMessageDialog(this, "El Auto fue añadido");
 
@@ -246,7 +246,7 @@ public class AutoForm extends javax.swing.JFrame {
         boolean AutoExiste = false;
 
         for (int i = 0; i < listaAutos.size(); i++) {
-            Auto autotemp = listaAutos.get(i);
+            Auto autotemp = (Auto)listaAutos.get(i);
 
             if (PlacaBuscar.equals(autotemp.getPlaca())) {
                 txtMotor.setText(autotemp.getMotor());
@@ -257,7 +257,6 @@ public class AutoForm extends javax.swing.JFrame {
                 txtModelo.setText(String.valueOf(autotemp.getModelo()));
 
                 AutoExiste = true;
-
             }
 
         }
@@ -267,28 +266,15 @@ public class AutoForm extends javax.swing.JFrame {
     }
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        String eliminar = JOptionPane.showInputDialog("Digite la placa del auto que quiere eliminar");
-        boolean AutoExiste = false;
-
-        for (int i = 0; i < listaAutos.size(); i++) {
-            Auto autotemp = listaAutos.get(i);
-
-            if (eliminar.equals(autotemp.getPlaca())) {
-                listaAutos.remove(i);
-
-                AutoExiste = true;
-            }
-        }
-        JOptionPane.showMessageDialog(this, "El Auto fue eliminado");
-
-        if (!AutoExiste) {
-            JOptionPane.showMessageDialog(this, "No se encontro el Auto");
-        }
+        
+        listaAutos.Desencolar();
+        contador=0;
+        JOptionPane.showMessageDialog(this, "El Auto desapilado");
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
 
-        Auto actual = listaAutos.get(contador);
+        Auto actual = (Auto) listaAutos.get(contador);
 
         txtMotor.setText(actual.getMotor());
         txtPlaca.setText(actual.getPlaca());
@@ -312,7 +298,7 @@ public class AutoForm extends javax.swing.JFrame {
 
         //Iterator<Auto> Siguiente= listaAutos.iterator();
         //txtMotor.setText(Siguiente.next().getMotor());
-        Auto actual = listaAutos.get(contador);
+        Auto actual = (Auto) listaAutos.get(contador);
 
         txtMotor.setText(actual.getMotor());
         txtPlaca.setText(actual.getPlaca());
